@@ -17,8 +17,7 @@ RUN apt-get update --yes \
     && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
        -t robbyrussell
 
-RUN pip config set global.index-url https://mirrors.cernet.edu.cn/pypi/web/simple \
-    && pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu116 \
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu116 \
     torch==1.13.1+cu116 \
     torchvision==0.14.1+cu116
 
