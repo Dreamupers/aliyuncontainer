@@ -1,0 +1,17 @@
+numba
+numpy
+pandas
+rich
+scikit-learn
+scipy
+tensorboard
+pillow
+munch
+rich
+loguru
+ipython
+seaborn
+torchinfo
+tqdm
+sacred
+xlrd
