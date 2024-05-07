@@ -15,3 +15,4 @@ torchinfo
 tqdm
 sacred
 xlrd
+protobuf==4.25
