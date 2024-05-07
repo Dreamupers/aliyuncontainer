@@ -12,6 +12,7 @@ RUN apt-get update --yes \
     python3.8 \
     python3-pip \
     zsh \
+    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && ln -s /usr/bin/python3 /usr/bin/python
