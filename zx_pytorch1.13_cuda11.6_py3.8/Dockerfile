@@ -11,12 +11,12 @@ RUN apt-get update --yes \
     tmux \
     python3.8 \
     python3-pip \
+    zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && ln -s /usr/bin/python3 /usr/bin/python
 
-RUN groupadd dockeru \
-    && useradd -m -s /bin/zsh dockeru \
+RUN useradd -m -s /bin/zsh dockeru \
     && chown -R dockeru:dockeru /home/dockeru
 
 USER dockeru
