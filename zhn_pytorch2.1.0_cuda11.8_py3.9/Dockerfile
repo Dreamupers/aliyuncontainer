@@ -1,7 +1,8 @@
 FROM nvidia/cuda:11.8.0-runtime-ubuntu20.04
 USER root
 
-RUN apt-get update --yes \
+RUN DEBIAN_FRONTEND="noninteractive" \
+    && apt-get update --yes \
     && apt-get install --yes --no-install-recommends \
     gosu \
     wget \
