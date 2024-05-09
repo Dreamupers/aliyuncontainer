@@ -1,7 +1,9 @@
 FROM nvidia/cuda:11.8.0-runtime-ubuntu20.04
 USER root
 
-RUN DEBIAN_FRONTEND="noninteractive" \
+ENV TZ=Asia/Shanghai
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ >/etc/timezone \
     && apt-get update --yes \
     && apt-get install --yes --no-install-recommends \
     gosu \
@@ -10,14 +12,19 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     zip \
     htop \
     tmux \
-    python3.9 \
-    python3-pip \
     zsh \
     curl \
     git \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && ln -s /usr/bin/python3 /usr/bin/python
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update --yes \
+    && apt-get install --yes --no-install-recommends \
+    python3.9 \
+    python3-pip \
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /bin/zsh dockeru \
     && chown -R dockeru:dockeru /home/dockeru
