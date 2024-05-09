@@ -1,7 +1,10 @@
 FROM nvidia/cuda:11.6.1-runtime-ubuntu20.04
 USER root
 
-RUN apt-get update --yes \
+ENV TZ=Asia/Shanghai
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ >/etc/timezone \
+    && apt-get update --yes \
     && apt-get install --yes --no-install-recommends \
     gosu \
     wget \
