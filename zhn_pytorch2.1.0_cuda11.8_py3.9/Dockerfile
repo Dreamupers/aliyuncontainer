@@ -22,7 +22,9 @@ RUN apt-get update --yes \
     && apt-get install --yes --no-install-recommends \
     python3.9 \
     python3-pip \
-    && ln -s /usr/bin/python3 /usr/bin/python \
+    && ln -s /usr/bin/python3.9 /usr/bin/python \
+    && rm /usr/bin/python3 \
+    && ln -s /usr/bin/python3.9 /usr/bin/python3 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
