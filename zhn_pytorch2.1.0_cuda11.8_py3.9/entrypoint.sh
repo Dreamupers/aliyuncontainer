@@ -3,4 +3,4 @@ usermod -u $UID dockeru
 groupmod -g $GID dockeru
 chown -R dockeru:dockeru /home/dockeru
 cd /home/dockeru
-exec gosu dockeru $@
+exec gosu dockeru code-server --host 0.0.0.0
