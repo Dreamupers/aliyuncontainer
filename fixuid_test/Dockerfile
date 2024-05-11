@@ -32,7 +32,7 @@ RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/wh
     torchvision==0.14.1+cu116
 
 RUN addgroup --gid 1000 dockeru && \
-    adduser --uid 1000 --ingroup dockeru --home /home/dockeru --shell /bin/sh --disabled-password --gecos "" dockeru
+    adduser --uid 1000 --ingroup dockeru --home /home/dockeru --shell /bin/zsh --disabled-password --gecos "" dockeru
 
 RUN USER=dockeru && \
     GROUP=dockeru && \

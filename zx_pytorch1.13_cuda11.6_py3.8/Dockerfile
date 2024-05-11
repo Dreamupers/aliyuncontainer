@@ -31,8 +31,16 @@ RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/wh
     torch==1.13.1+cu116 \
     torchvision==0.14.1+cu116
 
-RUN useradd -m -s /bin/zsh dockeru \
-    && chown -R dockeru:dockeru /home/dockeru
+RUN addgroup --gid 1000 dockeru && \
+    adduser --uid 1000 --ingroup dockeru --home /home/dockeru --shell /bin/zsh --disabled-password --gecos "" dockeru
+
+RUN USER=dockeru && \
+    GROUP=dockeru && \
+    curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.6.0/fixuid-0.6.0-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - && \
+    chown root:root /usr/local/bin/fixuid && \
+    chmod 4755 /usr/local/bin/fixuid && \
+    mkdir -p /etc/fixuid && \
+    printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 
 USER dockeru
 
@@ -42,13 +50,13 @@ RUN EXT_LIST="ms-python.python ms-toolsai.jupyter github.github-vscode-theme ms-
     -t robbyrussell
 
 COPY requirements.txt /home/dockeru/requirements.txt
-RUN pip --no-cache-dir install -r /home/dockeru/requirements.txt \
+RUN echo 'export PATH=/home/dockeru/.local/bin:$PATH' >> /home/dockeru/.zshrc \
+    && pip --no-cache-dir install -r /home/dockeru/requirements.txt \
     && rm -rf /tmp/* \
     && rm -rf /home/dockeru/.cache
 
-USER root
+ENTRYPOINT ["fixuid"]
 
-COPY entrypoint.sh /tmp/entrypoint.sh
-RUN chmod +x /tmp/entrypoint.sh
-ENTRYPOINT ["bash", "/tmp/entrypoint.sh"]
 EXPOSE 8080
+
+CMD code-server --host 0.0.0.0 --locale=zh-cn
