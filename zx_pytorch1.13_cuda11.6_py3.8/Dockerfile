@@ -42,7 +42,8 @@ RUN EXT_LIST="ms-python.python ms-toolsai.jupyter github.github-vscode-theme ms-
     -t robbyrussell
 
 COPY requirements.txt /home/dockeru/requirements.txt
-RUN pip --no-cache-dir install -r /home/dockeru/requirements.txt \
+RUN chown dockeru:dockeru /home/dockeru/requirements.txt \
+    && pip --no-cache-dir install -r /home/dockeru/requirements.txt \
     && rm -rf /tmp/* \
     && rm -rf /home/dockeru/.cache
 
