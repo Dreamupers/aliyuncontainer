@@ -26,7 +26,11 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
 RUN useradd -m -s /bin/zsh dockeru \
     && chown -R dockeru:dockeru /home/dockeru
 
-ENV CODE_VERSION=4.23.1
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu118 \
+    torch==2.1.0+cu118 \
+    torchvision==0.16.0+cu118
+
+ENV CODE_VERSION=4.89.0
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb \
     && dpkg -i code-server_${CODE_VERSION}_amd64.deb \
     && rm -f code-server_${CODE_VERSION}_amd64.deb
@@ -37,10 +41,6 @@ RUN EXT_LIST="ms-python.python ms-toolsai.jupyter github.github-vscode-theme ms-
     && for EXT in $EXT_LIST; do code-server --install-extension $EXT; done \
     && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
     -t robbyrussell
-
-RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu118 \
-    torch==2.1.0+cu118 \
-    torchvision==0.16.0+cu118
 
 COPY requirements.txt /home/dockeru/requirements.txt
 RUN pip --no-cache-dir install -r /home/dockeru/requirements.txt \

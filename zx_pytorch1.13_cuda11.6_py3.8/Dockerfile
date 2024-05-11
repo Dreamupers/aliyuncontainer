@@ -21,17 +21,25 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && rm -rf /var/lib/apt/lists/* \
     && ln -s /usr/bin/python3 /usr/bin/python
 
+ENV CODE_VERSION=4.89.0
+ENV PASSWORD=zx072707
+RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb \
+    && dpkg -i code-server_${CODE_VERSION}_amd64.deb \
+    && rm -f code-server_${CODE_VERSION}_amd64.deb
+
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu116 \
+    torch==1.13.1+cu116 \
+    torchvision==0.14.1+cu116
+
 RUN useradd -m -s /bin/zsh dockeru \
     && chown -R dockeru:dockeru /home/dockeru
 
 USER dockeru
 
-RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
+RUN EXT_LIST="ms-python.python ms-toolsai.jupyter github.github-vscode-theme ms-ceintl.vscode-language-pack-zh-hans" \
+    && for EXT in $EXT_LIST; do code-server --install-extension $EXT; done \
+    && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
     -t robbyrussell
-
-RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu116 \
-    torch==1.13.1+cu116 \
-    torchvision==0.14.1+cu116
 
 COPY requirements.txt /home/dockeru/requirements.txt
 RUN pip --no-cache-dir install -r /home/dockeru/requirements.txt \
