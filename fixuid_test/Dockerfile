@@ -47,7 +47,7 @@ RUN echo 'export PATH=/home/dockeru/.local/bin:$PATH' >> /home/dockeru/.zshrc \
     && rm -rf /tmp/* \
     && rm -rf /home/dockeru/.cache
 
-ENTRYPOINT ["fixuid"]
+ENTRYPOINT ["/usr/local/bin/fixuid"]
 
 EXPOSE 8080
 
