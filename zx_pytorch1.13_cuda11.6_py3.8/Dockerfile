@@ -51,3 +51,4 @@ USER root
 COPY entrypoint.sh /tmp/entrypoint.sh
 RUN chmod +x /tmp/entrypoint.sh
 ENTRYPOINT ["bash", "/tmp/entrypoint.sh"]
+EXPOSE 8080
