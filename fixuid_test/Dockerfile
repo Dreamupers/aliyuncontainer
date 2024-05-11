@@ -34,6 +34,14 @@ RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/wh
 RUN addgroup --gid 1000 dockeru && \
     adduser --uid 1000 --ingroup dockeru --home /home/dockeru --shell /bin/sh --disabled-password --gecos "" dockeru
 
+RUN USER=dockeru && \
+    GROUP=dockeru && \
+    curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.6.0/fixuid-0.6.0-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - && \
+    chown root:root /usr/local/bin/fixuid && \
+    chmod 4755 /usr/local/bin/fixuid && \
+    mkdir -p /etc/fixuid && \
+    printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
+
 USER dockeru
 
 RUN EXT_LIST="ms-python.python ms-toolsai.jupyter github.github-vscode-theme ms-ceintl.vscode-language-pack-zh-hans" \
@@ -47,7 +55,7 @@ RUN echo 'export PATH=/home/dockeru/.local/bin:$PATH' >> /home/dockeru/.zshrc \
     && rm -rf /tmp/* \
     && rm -rf /home/dockeru/.cache
 
-ENTRYPOINT ["/usr/local/bin/fixuid"]
+ENTRYPOINT ["fixuid"]
 
 EXPOSE 8080
 
