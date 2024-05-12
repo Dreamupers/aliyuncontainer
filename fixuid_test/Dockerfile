@@ -22,7 +22,7 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && ln -s /usr/bin/python3 /usr/bin/python
 
 ENV CODE_VERSION=4.89.0
-ENV PASSWORD=zx072707
+ENV PASSWORD=test
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb \
     && dpkg -i code-server_${CODE_VERSION}_amd64.deb \
     && rm -f code-server_${CODE_VERSION}_amd64.deb
