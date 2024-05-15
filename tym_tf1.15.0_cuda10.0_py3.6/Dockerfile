@@ -4,7 +4,7 @@ USER root
 ENV TZ=Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ >/etc/timezone \
-    && apt-get update --allow-unauthenticated --yes \
+    && apt-get update --yes || true \
     && apt-get install --yes --no-install-recommends \
     gosu \
     wget \
