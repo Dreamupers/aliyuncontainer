@@ -1,0 +1,7 @@
+{
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "editor.fontSize": 18,
+    "workbench.colorTheme": "Material Theme Darker",
+    "python.languageServer": "Jedi"
+}

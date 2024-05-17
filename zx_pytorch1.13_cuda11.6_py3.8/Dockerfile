@@ -46,7 +46,7 @@ RUN USER=dockeru && \
 
 USER dockeru
 
-RUN EXT_LIST="kylinideteam.python ms-toolsai.jupyter github.github-vscode-theme ms-ceintl.vscode-language-pack-zh-hans" \
+RUN EXT_LIST="s-python.pytho ms-toolsai.jupyter ms-ceintl.vscode-language-pack-zh-hans equinusocio.vsc-material-theme" \
     && for EXT in $EXT_LIST; do code-server --install-extension $EXT; done \
     && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
     -t robbyrussell
