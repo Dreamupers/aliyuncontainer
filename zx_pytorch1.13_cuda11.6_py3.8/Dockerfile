@@ -46,7 +46,7 @@ RUN USER=dockeru && \
 
 USER dockeru
 
-RUN EXT_LIST="ms-python.python ms-toolsai.jupyter ms-ceintl.vscode-language-pack-zh-hans equinusocio.vsc-material-theme" \
+RUN EXT_LIST="ms-python.python ms-toolsai.jupyter equinusocio.vsc-material-theme" \
     && for EXT in $EXT_LIST; do code-server --install-extension $EXT; done \
     && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
     -t robbyrussell
@@ -61,4 +61,4 @@ ENTRYPOINT ["fixuid"]
 
 EXPOSE 8080
 
-CMD code-server --host 0.0.0.0 --locale=zh-cn
+CMD code-server --host 0.0.0.0
