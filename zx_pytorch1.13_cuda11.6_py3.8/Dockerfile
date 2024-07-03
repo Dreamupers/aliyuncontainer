@@ -23,7 +23,7 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
 
 
 
-ENV CODE_VERSION=4.89.0
+ENV CODE_VERSION=4.90.3
 ENV PASSWORD=123456
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb \
     && dpkg -i code-server_${CODE_VERSION}_amd64.deb \
