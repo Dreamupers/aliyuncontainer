@@ -1,11 +1,10 @@
-protobuf==4.25
 numba
 numpy
 pandas
 rich
 scikit-learn
 scipy
-tensorboard
+tensorboardX
 pillow
 munch
 rich
@@ -15,8 +14,12 @@ seaborn
 torchinfo
 tqdm
 sacred
-xlrd==1.2.0
 ipykernel
 nvitop
-tensorboardX==2.6.2.2
-torch_geometric==2.5.3
+tensorboardX
+torch_geometric
+# for hyp2
+xlrd==1.2.0
+# for clip
+ftfy
+regex
