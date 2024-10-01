@@ -1,0 +1,25 @@
+numba
+numpy
+pandas
+rich
+scikit-learn
+scipy
+tensorboardX
+pillow
+munch
+rich
+loguru
+ipython
+seaborn
+torchinfo
+tqdm
+sacred
+ipykernel
+nvitop
+tensorboardX
+torch_geometric
+# for hyp2
+xlrd==1.2.0
+# for clip
+ftfy
+regex
