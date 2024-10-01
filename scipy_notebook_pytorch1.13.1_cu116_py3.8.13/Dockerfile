@@ -12,29 +12,61 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
 
-ENV TZ=Asia/Shanghai
-RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo $TZ >/etc/timezone \
-    && apt-get update --yes \
+RUN apt-get update --yes \
     && apt-get install --yes --no-install-recommends \
+    # build-essential \
     wget \
-    vim \
-    zip \
-    htop \
-    tmux \
-    zsh \
     curl \
-    git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-# Install PyTorch with pip (https://pytorch.org/get-started/locally/)
-# hadolint ignore=DL3013
+    htop \
+    # - pandoc is used to convert notebooks to html files
+    #   it's not present in the aarch64 Ubuntu image, so we install it here
+    # pandoc \
+    vim \
+    # git \
+    zip \
+    # unzip \
+    # libopenmpi-dev \
+    zsh \
+    tmux \
+    # screen \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Installation de Code Server et server-proxy/vscode-proxy pour intégrer Code dans JupyterLab
+# Install VSCode extensions
+ENV CODE_VERSION=4.93.1
+RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb && \
+    dpkg -i code-server_${CODE_VERSION}_amd64.deb && \
+    rm -f code-server_${CODE_VERSION}_amd64.deb
+    # plugin will be install in /home/username
+    # EXT_LIST="ms-python.python zhuangtongfa.material-theme" && \
+    # for EXT in $EXT_LIST; do code-server --install-extension $EXT; done
+
+# Copy environment.yml (if found) to a temp locaition so we update the environment. Also
+# copy "noop.txt" so the COPY instruction does not fail if no environment.yml exists.
+# COPY environment.yml noop.txt /tmp/conda-tmp/
+# RUN if [ -f "/tmp/conda-tmp/environment.yml" ]; then umask 0002 && /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
+#     && rm -rf /tmp/conda-tmp
+
+# install torch1.13.1 with built-in cuda runtime lib 11.6
 RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu116 \
     torch==1.13.1+cu116 \
     torchvision==0.14.1+cu116 && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-USER $NB_UID
+# mamba/conda instsall
+RUN mamba install --yes \
+    'jupyter-server-proxy' \
+    'jupyter-vscode-proxy' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
-WORKDIR $HOME
+# [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
+COPY requirements.txt noop.txt /tmp/pip-tmp/
+RUN if [ -f "/tmp/pip-tmp/requirements.txt" ]; then pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt; fi \
+   && rm -rf /tmp/pip-tmp \
+   && fix-permissions "${CONDA_DIR}" \
+   && fix-permissions "/home/${NB_USER}"
+
+USER ${NB_UID}
