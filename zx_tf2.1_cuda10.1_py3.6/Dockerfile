@@ -19,7 +19,7 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ENV CODE_VERSION=4.95.3
+ENV CODE_VERSION=4.16.1
 ENV PASSWORD=123456
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb \
     && dpkg -i code-server_${CODE_VERSION}_amd64.deb \
@@ -38,9 +38,7 @@ RUN USER=dockeru && \
 
 USER dockeru
 
-RUN EXT_LIST="ms-python.python ms-toolsai.jupyter" \
-    && for EXT in $EXT_LIST; do code-server --install-extension $EXT; done \
-    && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.1/zsh-in-docker.sh)" -- \
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.1/zsh-in-docker.sh)" -- \
     -t ys
     
 COPY requirements.txt /home/dockeru/requirements.txt
