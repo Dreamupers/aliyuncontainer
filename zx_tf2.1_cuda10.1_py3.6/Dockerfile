@@ -38,10 +38,10 @@ RUN USER=dockeru && \
 
 USER dockeru
 
-RUN EXT_LIST="ms-python.python ms-toolsai.jupyter cweijan.vscode-office aaron-bond.better-comments mhutchie.git-graph" \
+RUN EXT_LIST="ms-python.python ms-toolsai.jupyter" \
     && for EXT in $EXT_LIST; do code-server --install-extension $EXT; done \
     && sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.1/zsh-in-docker.sh)" -- \
-    -t robbyrussell
+    -t ys
     
 COPY requirements.txt /home/dockeru/requirements.txt
 RUN echo 'export PATH=/home/dockeru/.local/bin:$PATH' >> /home/dockeru/.zshrc \
