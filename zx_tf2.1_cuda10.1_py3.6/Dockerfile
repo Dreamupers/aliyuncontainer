@@ -40,12 +40,8 @@ USER dockeru
 
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.1/zsh-in-docker.sh)" -- \
     -t ys
-    
-COPY requirements.txt /home/dockeru/requirements.txt
-RUN echo 'export PATH=/home/dockeru/.local/bin:$PATH' >> /home/dockeru/.zshrc \
-    && pip --no-cache-dir install -r /home/dockeru/requirements.txt \
-    && rm -rf /tmp/* \
-    && rm -rf /home/dockeru/.cache
+
+RUN echo 'export PATH=/home/dockeru/.local/bin:$PATH' >> /home/dockeru/.zshrc
 
 ENTRYPOINT ["fixuid"]
 
