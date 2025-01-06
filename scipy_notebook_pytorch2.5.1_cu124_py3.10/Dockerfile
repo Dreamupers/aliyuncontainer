@@ -49,11 +49,12 @@ RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERS
 #     && rm -rf /tmp/conda-tmp
 
 # install torch2.1.0 with built-in cuda runtime lib 11.8
-# RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu118 \
-#     torch==2.1.2 \
-#     torchvision==0.16.2 && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"
+RUN pip install \
+    https://download.pytorch.org/whl/cu124/torch-2.5.1%2Bcu124-cp310-cp310-linux_x86_64.whl && \
+    pip install \
+    https://download.pytorch.org/whl/cu124/torchvision-0.20.1%2Bcu124-cp310-cp310-linux_x86_64.whl && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
 # mamba/conda instsall
 RUN mamba install --yes \
