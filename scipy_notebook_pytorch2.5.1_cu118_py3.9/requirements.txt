@@ -1,6 +1,6 @@
 --extra-index-url https://download.pytorch.org/whl/cu118
-torch+cu118==2.5.1
-torchvision+cu118==0.20.1
+torch==2.5.1+cu118
+torchvision==0.20.1+cu118
 SwissArmyTransformer>=0.4.9
 transformers>=4.36.2
 xformers>=0.0.22
