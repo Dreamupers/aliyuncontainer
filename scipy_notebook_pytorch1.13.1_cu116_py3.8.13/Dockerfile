@@ -33,7 +33,7 @@ RUN apt-get update --yes \
 
 # Installation de Code Server et server-proxy/vscode-proxy pour intégrer Code dans JupyterLab
 # Install VSCode extensions
-ENV CODE_VERSION=4.93.1
+ENV CODE_VERSION=4.98.0
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server_${CODE_VERSION}_amd64.deb && \
     dpkg -i code-server_${CODE_VERSION}_amd64.deb && \
     rm -f code-server_${CODE_VERSION}_amd64.deb
